@@ -5,7 +5,7 @@ import org.springframework.data.relational.core.mapping.Table
 
 
 @Table("pokemon")
-data class Pokemon (
+data class PokemonPostgres (
     @Id
     val id: Int?,
     val name: String,
