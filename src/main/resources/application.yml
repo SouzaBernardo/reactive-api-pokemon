@@ -1,0 +1,12 @@
+spring:
+  sql:
+    init:
+      mode: always
+  jdbc:
+    url: jdbc:postgresql://localhost:5432/postgres
+    password: postgres
+    username: postgres
+  data:
+    mongodb:
+      uri: mongodb://mongo:mongo@localhost:27017/db?authSource=admin
+      database: db

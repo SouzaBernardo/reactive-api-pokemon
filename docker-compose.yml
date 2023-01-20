@@ -1,6 +1,7 @@
 version: '3.5'
 
 services:
+
   postgres:
     image: postgres
     container_name: postgres_container
@@ -11,23 +12,16 @@ services:
       PGDATA: /data/postgres
     ports:
       - "5432:5432"
+    volumes:
+      - "/home/bepo/Documentos/docker-volumes/postgres:/data/postgres"
 
   mongo:
-    image: mongo
-    container_name: mongo_container
     restart: always
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: mongo
     ports:
       - "27017:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: mongo
-
-  mongo-express:
-    image: mongo-express
-    container_name: mongo_express
-    restart: always
-    ports:
-      - "8081:8081"
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: root
+    volumes:
+      - "/home/bepo/Documentos/docker-volumes/mongo:/data/db"
