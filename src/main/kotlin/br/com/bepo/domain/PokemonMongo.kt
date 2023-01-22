@@ -11,5 +11,5 @@ data class PokemonMongo (
     val name: String,
     val type: String,
     val image: String?,
-    val evolutionId: Int?
+    val evolution: PokemonMongo?
 )

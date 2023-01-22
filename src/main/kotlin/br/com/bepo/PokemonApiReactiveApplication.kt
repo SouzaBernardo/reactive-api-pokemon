@@ -12,15 +12,23 @@ import org.springframework.context.annotation.Bean
 class PokemonApiReactiveApplication {
 	@Bean
 	fun runner(pokemonMongoRepository: PokemonMongoRepository) = ApplicationRunner {
+		runBlocking { pokemonMongoRepository.deleteAll() }
+
 		runBlocking {
+
 			val pokemonList = listOf(
-				PokemonMongo(null, 1, "Pichu", "ELECTRIC", "https://assets.pokemon.com/assets/cms2/img/pokedex/full/172.png", 2),
-				PokemonMongo(null, 2, "Pikachu", "ELECTRIC", "https://assets.pokemon.com/assets/cms2/img/pokedex/full/025.png", 3),
-				PokemonMongo(null, 3, "Pichu", "ELECTRIC", "https://assets.pokemon.com/assets/cms2/img/pokedex/full/026.png", null)
+				PokemonMongo("a", 1, "Pichu", "ELECTRIC", "https://assets.pokemon.com/assets/cms2/img/pokedex/full/172.png",
+					PokemonMongo("b", 2, "Pikachu", "ELECTRIC", "https://assets.pokemon.com/assets/cms2/img/pokedex/full/025.png",
+						PokemonMongo("c", 3, "Raichu", "ELECTRIC", "https://assets.pokemon.com/assets/cms2/img/pokedex/full/026.png", null))),
+				PokemonMongo("b", 2, "Pikachu", "ELECTRIC", "https://assets.pokemon.com/assets/cms2/img/pokedex/full/025.png",
+					PokemonMongo("c", 3, "Raichu", "ELECTRIC", "https://assets.pokemon.com/assets/cms2/img/pokedex/full/026.png", null)),
+				PokemonMongo("c", 3, "Raichu", "ELECTRIC", "https://assets.pokemon.com/assets/cms2/img/pokedex/full/026.png", null)
 			)
 			val saved = pokemonMongoRepository.saveAll(pokemonList)
 
-			println(saved.blockLast()?.id)
+			val first = saved.blockFirst()!!
+
+			println("id: ${first.id}, name: ${first.name}, evolution name: ${first.evolution?.name}")
 		}
 	}
 }
